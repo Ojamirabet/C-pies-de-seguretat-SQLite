@@ -1,15 +1,15 @@
-#!/bin/bash
+DBUSER="oriol"
+DB_PASSWORD="123456"
+BACKUP_DIR="/home/oriol/Desktop/Copia_seguridad_MariaDB/backup"
 
-DB_USER="postgres"
-DB_NAME="mercadillo"
-BACKUP_DIR="/home/alumne/Desktop/C-pies-de-seguridad-SQLite"
+TIMESTAMP=$(date +"%Y-%m-%d%H:%M:%S")
 
+mysqldump -u $DBUSER -p$DB_PASSWORD --all-databases > "$BACKUP_DIR/backup_total$TIMESTAMP.sql"
 
-FECHA_HORA=$(date +"%Y-%m-%d_%H-%M-%S")
+mysqldump -u $DBUSER -p$DB_PASSWORD mysql > "$BACKUP_DIR/backup_usuaris$TIMESTAMP.sql"
 
-NOMBRE_BACKUP="backup_${FECHA_HORA}.sql"
+mysqldump -u $DBUSER -p$DB_PASSWORD --all-databases --no-data > "$BACKUP_DIR/backup_estructura$TIMESTAMP.sql"
 
-pg_dump -U "$DB_USER" -d "$DB_NAME" > "$BACKUP_DIR/$NOMBRE_BACKUP"
+mysqldump -u $DBUSER -p$DB_PASSWORD --all-databases --no-create-info > "$BACKUP_DIR/backup_dades$TIMESTAMP.sql"
 
-echo "Copia de seguridad creada: $NOMBRE_BACKUP"
-
+echo "La copia de seguridad se a echo correctamente a las $TIMESTAMP"
